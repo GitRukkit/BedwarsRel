@@ -104,7 +104,7 @@ public class Main extends JavaPlugin {
   private BukkitTask timeTask = null;
   private Package craftbukkit = null;
   private Package minecraft = null;
-  private String version = null;
+  private MinecraftVersion version = null;
   private LocalizationConfig localization = null;
   private DatabaseManager dbManager = null;
   private BukkitTask updateChecker = null;
@@ -551,12 +551,13 @@ public class Main extends JavaPlugin {
     return this.localization;
   }
 
-  private String loadVersion() {
+  private MinecraftVersion loadVersion() {
     String packName = Bukkit.getServer().getClass().getPackage().getName();
-    return packName.substring(packName.lastIndexOf('.') + 1);
+    String versionString = packName.substring(packName.lastIndexOf('.') + 1);
+    return MinecraftVersion.valueOf(versionString);
   }
 
-  public String getCurrentVersion() {
+  public MinecraftVersion getCurrentVersion() {
     return this.version;
   }
 
@@ -695,9 +696,7 @@ public class Main extends JavaPlugin {
     new WeatherListener();
     new BlockListener();
     new PlayerListener();
-    if (Main.getInstance().getCurrentVersion().startsWith("v1_9")
-        || Main.getInstance().getCurrentVersion().startsWith("v1_10")
-        || Main.getInstance().getCurrentVersion().startsWith("v1_11")) {
+    if (Main.getInstance().getCurrentVersion().newerThan(MinecraftVersion.v1_9_R1)) {
       new Player19Listener();
     }
     new HangingListener();

@@ -686,11 +686,7 @@ public class PluginUpdater {
       while ((line = reader.readLine()) != null) {
         versions.add(line);
       }
-      if (Main.getInstance().getCurrentVersion().startsWith("v1_7")) {
-        version = versions.get(0);
-      } else {
-        version = versions.get(1);
-      }
+      version = versions.get(1);
       reader.close();
 
     } catch (Exception ex) {

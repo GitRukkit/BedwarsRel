@@ -15,6 +15,7 @@ import org.bukkit.scheduler.BukkitTask;
 import com.google.common.collect.ImmutableMap;
 
 import io.github.bedwarsrel.BedwarsRel.Main;
+import io.github.bedwarsrel.BedwarsRel.MinecraftVersion;
 import io.github.bedwarsrel.BedwarsRel.Game.Game;
 import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
 import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
@@ -111,7 +112,7 @@ public class ProtectionWall extends SpecialItem {
 
     ItemStack usedStack = null;
 
-    if (Main.getInstance().getCurrentVersion().startsWith("v1_8")) {
+    if (Main.getInstance().getCurrentVersion().olderThan(MinecraftVersion.v1_9_R1)) {
       usedStack = player.getInventory().getItemInHand();
       usedStack.setAmount(usedStack.getAmount() - 1);
       player.getInventory().setItem(player.getInventory().getHeldItemSlot(), usedStack);

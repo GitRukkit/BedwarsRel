@@ -14,6 +14,7 @@ import org.bukkit.material.SpawnEgg;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import io.github.bedwarsrel.BedwarsRel.Main;
+import io.github.bedwarsrel.BedwarsRel.MinecraftVersion;
 import io.github.bedwarsrel.BedwarsRel.Events.BedwarsUseTNTSheepEvent;
 import io.github.bedwarsrel.BedwarsRel.Game.Game;
 import io.github.bedwarsrel.BedwarsRel.Game.GameState;
@@ -65,7 +66,7 @@ public class TNTSheep extends SpecialItem {
 
     ItemStack usedStack = null;
 
-    if (Main.getInstance().getCurrentVersion().startsWith("v1_8")) {
+    if (Main.getInstance().getCurrentVersion().olderThan(MinecraftVersion.v1_9_R1)) {
       usedStack = player.getInventory().getItemInHand();
       if (((SpawnEgg) usedStack.getData()).getSpawnedType() != EntityType.SHEEP) {
         return;

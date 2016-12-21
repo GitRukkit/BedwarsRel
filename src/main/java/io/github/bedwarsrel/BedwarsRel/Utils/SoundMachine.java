@@ -3,6 +3,7 @@ package io.github.bedwarsrel.BedwarsRel.Utils;
 import org.bukkit.Sound;
 
 import io.github.bedwarsrel.BedwarsRel.Main;
+import io.github.bedwarsrel.BedwarsRel.MinecraftVersion;
 
 public class SoundMachine {
 
@@ -10,7 +11,7 @@ public class SoundMachine {
     Sound finalSound = null;
 
     try {
-      if (Main.getInstance().getCurrentVersion().startsWith("v1_8")) {
+      if (Main.getInstance().getCurrentVersion().olderThan(MinecraftVersion.v1_9_R1)) {
         finalSound = Sound.valueOf(v18);
       } else {
         finalSound = Sound.valueOf(v19);

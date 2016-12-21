@@ -21,6 +21,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 
 import io.github.bedwarsrel.BedwarsRel.Main;
+import io.github.bedwarsrel.BedwarsRel.MinecraftVersion;
 import io.github.bedwarsrel.BedwarsRel.Game.Game;
 import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
 import io.github.bedwarsrel.BedwarsRel.Utils.SoundMachine;
@@ -510,9 +511,7 @@ public class NewItemShop {
       if (iStack.getType() == Material.ENDER_CHEST && stack.getType() == Material.ENDER_CHEST) {
         return trade;
       } else if ((iStack.getType() == Material.POTION
-          || ((Main.getInstance().getCurrentVersion().startsWith("v1_9")
-              || Main.getInstance().getCurrentVersion().startsWith("v1_10")
-              || Main.getInstance().getCurrentVersion().startsWith("v1_11"))
+          || ((Main.getInstance().getCurrentVersion().newerThan(MinecraftVersion.v1_9_R1))
               && (iStack.getType().equals(Material.valueOf("TIPPED_ARROW"))
                   || iStack.getType().equals(Material.valueOf("LINGERING_POTION"))
                   || iStack.getType().equals(Material.valueOf("SPLASH_POTION")))))

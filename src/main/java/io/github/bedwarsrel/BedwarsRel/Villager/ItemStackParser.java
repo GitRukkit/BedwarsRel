@@ -15,6 +15,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import io.github.bedwarsrel.BedwarsRel.Main;
+import io.github.bedwarsrel.BedwarsRel.MinecraftVersion;
 import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
 import lombok.Getter;
 
@@ -92,9 +93,7 @@ public class ItemStackParser {
 
   private boolean isPotion() {
     return (this.material.equals(Material.POTION)
-        || ((Main.getInstance().getCurrentVersion().startsWith("v1_9")
-            || Main.getInstance().getCurrentVersion().startsWith("v1_10")
-            || Main.getInstance().getCurrentVersion().startsWith("v1_11"))
+        || ((Main.getInstance().getCurrentVersion().newerThan(MinecraftVersion.v1_9_R1))
             && (this.material.equals(Material.valueOf("TIPPED_ARROW"))
                 || this.material.equals(Material.valueOf("LINGERING_POTION"))
                 || this.material.equals(Material.valueOf("SPLASH_POTION")))));
@@ -130,9 +129,7 @@ public class ItemStackParser {
 
   private boolean isMetarizable() {
     return (!this.material.equals(Material.POTION)
-        && !((Main.getInstance().getCurrentVersion().startsWith("v1_9")
-            || Main.getInstance().getCurrentVersion().startsWith("v1_10")
-            || Main.getInstance().getCurrentVersion().startsWith("v1_11"))
+        && !((Main.getInstance().getCurrentVersion().newerThan(MinecraftVersion.v1_9_R1))
             && (this.material.equals(Material.valueOf("TIPPED_ARROW"))
                 || this.material.equals(Material.valueOf("LINGERING_POTION"))
                 || this.material.equals(Material.valueOf("SPLASH_POTION")))));

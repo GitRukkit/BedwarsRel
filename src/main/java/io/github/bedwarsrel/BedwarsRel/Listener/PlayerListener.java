@@ -46,6 +46,7 @@ import org.bukkit.material.Wool;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import io.github.bedwarsrel.BedwarsRel.Main;
+import io.github.bedwarsrel.BedwarsRel.MinecraftVersion;
 import io.github.bedwarsrel.BedwarsRel.Events.BedwarsOpenShopEvent;
 import io.github.bedwarsrel.BedwarsRel.Game.BungeeGameCycle;
 import io.github.bedwarsrel.BedwarsRel.Game.Game;
@@ -148,7 +149,7 @@ public class PlayerListener extends BaseListener {
   @SuppressWarnings("deprecation")
   private void inGameInteractEntity(PlayerInteractEntityEvent iee, Game game, Player player) {
 
-    if (Main.getInstance().getCurrentVersion().startsWith("v1_8")) {
+    if (Main.getInstance().getCurrentVersion().olderThan(MinecraftVersion.v1_9_R1)) {
       if (iee.getPlayer().getItemInHand().getType().equals(Material.MONSTER_EGG)
           || iee.getPlayer().getItemInHand().getType().equals(Material.MONSTER_EGGS)
           || iee.getPlayer().getItemInHand().getType().equals(Material.DRAGON_EGG)) {
