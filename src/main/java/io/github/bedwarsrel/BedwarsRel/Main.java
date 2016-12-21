@@ -367,14 +367,14 @@ public class Main extends JavaPlugin {
   public Class<?> getVersionRelatedClass(String className) {
     try {
       Class<?> clazz = Class.forName(
-          "io.github.bedwarsrel.BedwarsRel.Com." + this.getCurrentVersion() + "." + className);
+          "io.github.bedwarsrel.BedwarsRel.Com." + this.getCurrentNMSVersion() + "." + className);
       return clazz;
     } catch (Exception ex) {
       Main.getInstance().getBugsnag().notify(ex);
       this.getServer().getConsoleSender()
           .sendMessage(ChatWriter.pluginMessage(ChatColor.RED
               + "Couldn't find version related class io.github.bedwarsrel.BedwarsRel.Com."
-              + this.getCurrentVersion() + "." + className));
+              + this.getCurrentNMSVersion() + "." + className));
     }
 
     return null;
@@ -559,6 +559,10 @@ public class Main extends JavaPlugin {
 
   public MinecraftVersion getCurrentVersion() {
     return this.version;
+  }
+  
+  public String getCurrentNMSVersion() {
+    return this.version.getName();
   }
 
   public boolean isBungee() {

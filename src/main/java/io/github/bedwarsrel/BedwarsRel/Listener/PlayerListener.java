@@ -330,7 +330,7 @@ public class PlayerListener extends BaseListener {
           Class<?> clazz = null;
           try {
             clazz = Class.forName("io.github.bedwarsrel.BedwarsRel.Com."
-                + Main.getInstance().getCurrentVersion() + ".PerformRespawnRunnable");
+                + Main.getInstance().getCurrentNMSVersion() + ".PerformRespawnRunnable");
           } catch (ClassNotFoundException ex) {
             Main.getInstance().getBugsnag().notify(ex);
             clazz = Class
@@ -488,7 +488,7 @@ public class PlayerListener extends BaseListener {
           merchant.setRecipes(recipeList);
         } else {
           Class clazz = Class.forName("io.github.bedwarsrel.BedwarsRel.Com."
-              + Main.getInstance().getCurrentVersion() + ".VillagerItemShop");
+              + Main.getInstance().getCurrentNMSVersion() + ".VillagerItemShop");
           Object villagerItemShop =
               clazz.getDeclaredConstructor(Game.class, Player.class, MerchantCategory.class)
                   .newInstance(game, player, cat);

@@ -95,7 +95,7 @@ public final class Utils {
   public static void createParticleInGame(Game game, String particle, Location loc) {
     try {
       Class<?> clazz = Class.forName("io.github.bedwarsrel.BedwarsRel.Com."
-          + Main.getInstance().getCurrentVersion() + ".ParticleSpawner");
+          + Main.getInstance().getCurrentNMSVersion() + ".ParticleSpawner");
 
       Method particleMethod = clazz.getDeclaredMethod("spawnParticle", List.class, String.class,
           float.class, float.class, float.class);

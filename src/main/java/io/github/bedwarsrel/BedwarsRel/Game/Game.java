@@ -271,7 +271,7 @@ public class Game {
     if (Main.getInstance().getBooleanConfig("show-team-in-actionbar", false)) {
       try {
         Class<?> clazz = Class.forName("io.github.bedwarsrel.BedwarsRel.Com."
-            + Main.getInstance().getCurrentVersion() + ".ActionBar");
+            + Main.getInstance().getCurrentNMSVersion() + ".ActionBar");
         final Method sendActionBar =
             clazz.getDeclaredMethod("sendActionBar", Player.class, String.class);
 
@@ -1615,7 +1615,7 @@ public class Game {
   private void displayMapInfo(Player player) {
     try {
       Class<?> clazz = Class.forName("io.github.bedwarsrel.BedwarsRel.Com."
-          + Main.getInstance().getCurrentVersion() + ".Title");
+          + Main.getInstance().getCurrentNMSVersion() + ".Title");
       Method showTitle = clazz.getMethod("showTitle", Player.class, String.class, double.class,
           double.class, double.class);
       double titleFadeIn = Main.getInstance().getConfig().getDouble("titles.map.title-fade-in");

@@ -142,7 +142,7 @@ public abstract class GameCycle {
               && (!"".equals(title) || !"".equals(subtitle))) {
             try {
               Class<?> clazz = Class.forName("io.github.bedwarsrel.BedwarsRel.Com."
-                  + Main.getInstance().getCurrentVersion() + ".Title");
+                  + Main.getInstance().getCurrentNMSVersion() + ".Title");
 
               if (!"".equals(title)) {
                 double titleFadeIn =
