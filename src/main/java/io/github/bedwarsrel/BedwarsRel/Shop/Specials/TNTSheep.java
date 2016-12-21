@@ -10,6 +10,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.TNTPrimed;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.SpawnEggMeta;
 import org.bukkit.material.SpawnEgg;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -21,6 +22,7 @@ import io.github.bedwarsrel.BedwarsRel.Game.GameState;
 import io.github.bedwarsrel.BedwarsRel.Game.Team;
 import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
 
+@SuppressWarnings("deprecation")
 public class TNTSheep extends SpecialItem {
 
   private Player player = null;
@@ -61,7 +63,6 @@ public class TNTSheep extends SpecialItem {
     return this.sheep;
   }
 
-  @SuppressWarnings("deprecation")
   public void run(Location startLocation) {
 
     ItemStack usedStack = null;
@@ -76,10 +77,22 @@ public class TNTSheep extends SpecialItem {
     } else {
       if (player.getInventory().getItemInOffHand().getType() == this.getItemMaterial()) {
         usedStack = player.getInventory().getItemInOffHand();
+        if (Main.getInstance().getCurrentVersion().newerThan(MinecraftVersion.v1_11_R1)) {
+          SpawnEggMeta spawnEggMeta = (SpawnEggMeta) usedStack.getItemMeta();
+          if (!spawnEggMeta.getSpawnedType().equals(EntityType.SHEEP)) {
+            return;
+          }
+        }
         usedStack.setAmount(usedStack.getAmount() - 1);
         player.getInventory().setItemInOffHand(usedStack);
       } else if (player.getInventory().getItemInMainHand().getType() == this.getItemMaterial()) {
         usedStack = player.getInventory().getItemInMainHand();
+        if (Main.getInstance().getCurrentVersion().newerThan(MinecraftVersion.v1_11_R1)) {
+          SpawnEggMeta spawnEggMeta = (SpawnEggMeta) usedStack.getItemMeta();
+          if (!spawnEggMeta.getSpawnedType().equals(EntityType.SHEEP)) {
+            return;
+          }
+        }
         usedStack.setAmount(usedStack.getAmount() - 1);
         player.getInventory().setItemInMainHand(usedStack);
       }

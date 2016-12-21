@@ -41,6 +41,9 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.Merchant;
+import org.bukkit.inventory.MerchantRecipe;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.material.Wool;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -54,7 +57,9 @@ import io.github.bedwarsrel.BedwarsRel.Game.GameState;
 import io.github.bedwarsrel.BedwarsRel.Game.Team;
 import io.github.bedwarsrel.BedwarsRel.Shop.NewItemShop;
 import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
+import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
 import io.github.bedwarsrel.BedwarsRel.Villager.MerchantCategory;
+import io.github.bedwarsrel.BedwarsRel.Villager.VillagerTrade;
 
 public class PlayerListener extends BaseListener {
 
@@ -448,14 +453,49 @@ public class PlayerListener extends BaseListener {
           return;
         }
 
-        Class clazz = Class.forName("io.github.bedwarsrel.BedwarsRel.Com."
-            + Main.getInstance().getCurrentVersion() + ".VillagerItemShop");
-        Object villagerItemShop =
-            clazz.getDeclaredConstructor(Game.class, Player.class, MerchantCategory.class)
-                .newInstance(game, player, cat);
+        if (Main.getInstance().getCurrentVersion().newerThan(MinecraftVersion.v1_11_R1)) {
+          List<MerchantRecipe> recipeList = new ArrayList<MerchantRecipe>();
 
-        Method openTrade = clazz.getDeclaredMethod("openTrading", new Class[] {});
-        openTrade.invoke(villagerItemShop, new Object[] {});
+          for (VillagerTrade trade : cat.getFilteredOffers()) {
+            ItemStack reward = trade.getRewardItem();
+            Method colorable = Utils.getColorableMethod(reward.getType());
+
+            if (Utils.isColorable(reward)) {
+              reward
+                  .setDurability(game.getPlayerTeam(player).getColor().getDyeColor().getWoolData());
+            } else if (colorable != null) {
+              ItemMeta meta = reward.getItemMeta();
+              colorable.setAccessible(true);
+              colorable.invoke(meta,
+                  new Object[] {game.getPlayerTeam(player).getColor().getColor()});
+              reward.setItemMeta(meta);
+            }
+
+            MerchantRecipe recipe = new MerchantRecipe(trade.getRewardItem(), 1024);
+            recipe.addIngredient(trade.getItem1());
+
+            if (trade.getItem2() != null) {
+              recipe.addIngredient(trade.getItem2());
+            } else {
+              recipe.addIngredient(new ItemStack(Material.AIR));
+            }
+
+            recipe.setUses(0);
+            recipe.setExperienceReward(false);
+            recipeList.add(recipe);
+          }
+          Merchant merchant = Main.getInstance().getServer().createMerchant("Shop");
+          merchant.setRecipes(recipeList);
+        } else {
+          Class clazz = Class.forName("io.github.bedwarsrel.BedwarsRel.Com."
+              + Main.getInstance().getCurrentVersion() + ".VillagerItemShop");
+          Object villagerItemShop =
+              clazz.getDeclaredConstructor(Game.class, Player.class, MerchantCategory.class)
+                  .newInstance(game, player, cat);
+
+          Method openTrade = clazz.getDeclaredMethod("openTrading", new Class[] {});
+          openTrade.invoke(villagerItemShop, new Object[] {});
+        }
       } catch (Exception ex) {
         Main.getInstance().getBugsnag().notify(ex);
         ex.printStackTrace();
